@@ -7,17 +7,12 @@ Route::any('/', function () {
 });
 
 Route::any('/home', function () {
-    if(auth()->user()){
-        return redirect()->to('/admin');
-    }
+    return auth()->user() ? redirect()->to('/admin') : redirect()->route('login');
 });
-
 
 Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/', function () {
         return view('dashboard');
     });
-
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); 
 });
 
